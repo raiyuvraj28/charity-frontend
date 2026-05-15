@@ -3,7 +3,8 @@ import { Download, CreditCard } from "lucide-react";
 import PageHeader from "../../Components/PageHeader";
 import { Link } from "react-router-dom";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL 
+
 
 const PaymentHistory = () => {
   const [payments, setPayments] = useState([]);

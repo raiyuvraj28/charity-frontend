@@ -3,7 +3,8 @@ import { useAuth } from "../../context/AuthContext";
 import { HandCoins, Upload, CheckCircle, Clock, XCircle } from "lucide-react";
 import PageHeader from "../../Components/PageHeader";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL 
+
 
 const FundingRequest = () => {
   const { user } = useAuth();

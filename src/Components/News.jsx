@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+const API = import.meta.env.VITE_API_URL 
+
 
 const STATIC_NEWS = [
   { _id: "1", id: 1, title: "India Expands Free Education Programs", date: "April 2, 2026", imageUrl: "images/news/education.jpg", description: "Government and NGOs across India are expanding free education initiatives to support children in rural and underprivileged communities with digital learning tools." },
@@ -11,7 +13,7 @@ const News = () => {
   const [newsData, setNewsData] = useState(STATIC_NEWS);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/news")
+    fetch(`${API}/news`)
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (Array.isArray(data) && data.length > 0) setNewsData(data); })
       .catch(() => {}); // silently fall back to static
