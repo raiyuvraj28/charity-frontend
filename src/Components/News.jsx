@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import API from "../config/api";
 import { Link } from "react-router-dom";
 
 const STATIC_NEWS = [
@@ -12,7 +11,7 @@ const News = () => {
   const [newsData, setNewsData] = useState(STATIC_NEWS);
 
   useEffect(() => {
-    fetch(`${API}/news`)
+    fetch("http://localhost:5000/api/news")
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (Array.isArray(data) && data.length > 0) setNewsData(data); })
       .catch(() => {}); // silently fall back to static

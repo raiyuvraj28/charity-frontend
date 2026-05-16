@@ -4,7 +4,7 @@ import StatCard from "../../Components/StatCard";
 import MiniChart from "../../Components/MiniChart";
 import PageHeader from "../../Components/PageHeader";
 
-import API from "../../config/api";
+const API = "http://localhost:5000/api";
 
 const AdminDashboardHome = () => {
   const [donations,  setDonations]  = useState([]);

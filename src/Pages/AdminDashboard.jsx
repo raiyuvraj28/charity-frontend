@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+﻿import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   LayoutDashboard, Users, HeartHandshake, Settings, LogOut,
   TrendingUp, DollarSign, Search, Bell, X, Download,
@@ -6,7 +6,7 @@ import {
   Newspaper, HandCoins, Eye, XCircle, Menu
 } from "lucide-react";
 
-import API from "../config/api";
+const API = "http://localhost:5000/api";
 
 const parseJsonArray = async (res) => {
   try {

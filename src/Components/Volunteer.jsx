@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import API from "../config/api";
 
 const Volunteer = () => {
   const [formData, setFormData] = useState({ name: '', email: '', interest: '', message: '' });
@@ -8,7 +7,7 @@ const Volunteer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${API}/volunteers`, {
+      const res = await fetch('http://localhost:5000/api/volunteers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

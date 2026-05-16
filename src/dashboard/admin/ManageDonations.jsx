@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Download, Search, Filter } from "lucide-react";
 import PageHeader from "../../Components/PageHeader";
 
-import API from "../../config/api";
+const API = "http://localhost:5000/api";
 
 const ManageDonations = () => {
   const [donations, setDonations] = useState([]);

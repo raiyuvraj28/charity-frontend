@@ -5,7 +5,7 @@ import StatCard from "../../Components/StatCard";
 import PageHeader from "../../Components/PageHeader";
 import { Link } from "react-router-dom";
 
-import API from "../../config/api";
+const API = "http://localhost:5000/api";
 
 const UserHome = () => {
   const { user } = useAuth();

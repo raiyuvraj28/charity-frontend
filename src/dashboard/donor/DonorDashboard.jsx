@@ -6,7 +6,7 @@ import MiniChart from "../../Components/MiniChart";
 import PageHeader from "../../Components/PageHeader";
 import { Link } from "react-router-dom";
 
-import API from "../../config/api";
+const API = "http://localhost:5000/api";
 
 const DonorDashboard = () => {
   const { user } = useAuth();
