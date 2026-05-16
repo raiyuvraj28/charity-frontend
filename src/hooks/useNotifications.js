@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-const API = import.meta.env.VITE_API_URL 
-
-
+import API from "../config/api";
 const formatTime = (dateStr) => {
   const d = new Date(dateStr);
   const diff = Date.now() - d.getTime();
@@ -70,7 +68,7 @@ export const useNotifications = (mode = "my") => {
 
   const items = notifications.map((n) => ({
     id: n._id,
-    icon: n.icon || "🔔",
+    icon: n.icon || "bell",
     text: n.message,
     title: n.title,
     time: formatTime(n.createdAt),

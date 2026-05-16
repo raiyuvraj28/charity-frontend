@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
+import API from "../config/api";
 import { Link } from "react-router-dom";
-const API = import.meta.env.VITE_API_URL 
-
 
 const STATIC_NEWS = [
   { _id: "1", id: 1, title: "India Expands Free Education Programs", date: "April 2, 2026", imageUrl: "images/news/education.jpg", description: "Government and NGOs across India are expanding free education initiatives to support children in rural and underprivileged communities with digital learning tools." },

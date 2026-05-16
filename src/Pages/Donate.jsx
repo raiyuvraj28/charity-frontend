@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import API from "../config/api";
 import { useAuth } from "../context/AuthContext";
-const API = import.meta.env.VITE_API_URL 
 
 const Donate = () => {
   const { user } = useAuth();

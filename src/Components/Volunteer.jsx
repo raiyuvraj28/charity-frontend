@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-const API = import.meta.env.VITE_API_URL 
-
+import API from "../config/api";
 
 const Volunteer = () => {
   const [formData, setFormData] = useState({ name: '', email: '', interest: '', message: '' });

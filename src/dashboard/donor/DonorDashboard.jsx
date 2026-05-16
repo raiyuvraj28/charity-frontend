@@ -6,8 +6,7 @@ import MiniChart from "../../Components/MiniChart";
 import PageHeader from "../../Components/PageHeader";
 import { Link } from "react-router-dom";
 
-const API = import.meta.env.VITE_API_URL 
-
+import API from "../../config/api";
 
 const DonorDashboard = () => {
   const { user } = useAuth();

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import useNotifications from "../hooks/useNotifications";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -50,7 +49,6 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
-  const { items: notifItems, unreadCount: notifUnread, markRead: markNotifRead, markAllRead: markAllNotifRead } = useNotifications("my");
 
   const config = NAV_CONFIG[user?.role] || NAV_CONFIG.user;
 
@@ -58,6 +56,13 @@ const DashboardLayout = () => {
     logout();
     navigate("/login");
   };
+
+  const NOTIFICATIONS = [
+    { icon: "💰", text: "New donation of ₹5,000 received", time: "2 min ago" },
+    { icon: "🙋", text: "New volunteer registration", time: "15 min ago" },
+    { icon: "📢", text: "Campaign 'Clean Water' reached 80%", time: "1 hr ago" },
+    { icon: "✉️", text: "New contact message from Rahul", time: "3 hrs ago" },
+  ];
 
   return (
     <div className="dash-layout">
@@ -137,40 +142,23 @@ const DashboardLayout = () => {
             <div className="dash-notif-wrap">
               <button className="dash-icon-btn" onClick={() => setNotifOpen(!notifOpen)}>
                 <Bell size={20} />
-                {notifUnread > 0 && <span className="dash-badge">{notifUnread}</span>}
+                <span className="dash-badge">4</span>
               </button>
               {notifOpen && (
                 <div className="dash-notif-dropdown">
                   <div className="dash-notif-header">
                     <span>Notifications</span>
-                    <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                      {notifUnread > 0 && (
-                        <button type="button" onClick={markAllNotifRead} style={{ background: "none", border: "none", cursor: "pointer", color: "#0EA5E9", fontSize: "0.75rem", fontWeight: 600 }}>Mark all</button>
-                      )}
-                      <button type="button" onClick={() => setNotifOpen(false)}><X size={16} /></button>
-                    </div>
+                    <button onClick={() => setNotifOpen(false)}><X size={16} /></button>
                   </div>
-                  {notifItems.length === 0 ? (
-                    <div className="dash-notif-item" style={{ cursor: "default" }}>
-                      <p className="text-muted mb-0">No notifications yet</p>
-                    </div>
-                  ) : (
-                    notifItems.map((n) => (
-                      <div
-                        key={n.id}
-                        className="dash-notif-item"
-                        style={{ background: n.read ? undefined : "rgba(14, 165, 233, 0.06)" }}
-                        onClick={() => { markNotifRead(n.id); if (n.link) navigate(n.link); setNotifOpen(false); }}
-                      >
-                        <span className="dash-notif-emoji">{n.icon}</span>
-                        <div style={{ minWidth: 0 }}>
-                          <p style={{ fontWeight: 700, marginBottom: "2px" }}>{n.title}</p>
-                          <p>{n.text}</p>
-                          <small>{n.time}</small>
-                        </div>
+                  {NOTIFICATIONS.map((n, i) => (
+                    <div key={i} className="dash-notif-item">
+                      <span className="dash-notif-emoji">{n.icon}</span>
+                      <div>
+                        <p>{n.text}</p>
+                        <small>{n.time}</small>
                       </div>
-                    ))
-                  )}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

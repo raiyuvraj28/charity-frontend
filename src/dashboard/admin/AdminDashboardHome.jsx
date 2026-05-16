@@ -4,8 +4,7 @@ import StatCard from "../../Components/StatCard";
 import MiniChart from "../../Components/MiniChart";
 import PageHeader from "../../Components/PageHeader";
 
-const API = import.meta.env.VITE_API_URL 
-
+import API from "../../config/api";
 
 const AdminDashboardHome = () => {
   const [donations,  setDonations]  = useState([]);

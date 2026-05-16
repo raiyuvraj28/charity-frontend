@@ -1,5 +1,4 @@
-﻿import React, { useState, useEffect, useCallback, useRef } from "react";
-import useNotifications from "../hooks/useNotifications";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   LayoutDashboard, Users, HeartHandshake, Settings, LogOut,
   TrendingUp, DollarSign, Search, Bell, X, Download,
@@ -7,8 +6,7 @@ import {
   Newspaper, HandCoins, Eye, XCircle, Menu
 } from "lucide-react";
 
-const API = import.meta.env.VITE_API_URL 
-
+import API from "../config/api";
 
 const parseJsonArray = async (res) => {
   try {
@@ -31,7 +29,6 @@ const AdminDashboard = () => {
   const [sidebarOpen,  setSidebarOpen]          = useState(false);
   const [donationsLoading, setDonationsLoading] = useState(true);
   const fetchGenRef = useRef(0);
-  const { items: notifItems, unreadCount: notifUnread, markRead: markNotifRead, markAllRead: markAllNotifRead } = useNotifications("admin");
 
   // reply state
   const [replyText,    setReplyText]            = useState({});
@@ -241,6 +238,12 @@ const AdminDashboard = () => {
   const unreadMessages  = messages.filter(m => !m.replied).length;
   const pendingFunding  = funding.filter(f => f.status === "pending").length;
 
+  const notifications = [
+    ...messages.filter(m=>!m.replied).slice(0,3).map(m=>({ id:m._id, icon:"", text:`New message from ${m.firstName} ${m.lastName}`, time: new Date(m.createdAt).toLocaleString() })),
+    ...funding.filter(f=>f.status==="pending").slice(0,3).map(f=>({ id:f._id, icon:"", text:`Funding request: "${f.title}" by ${f.userName}`, time: new Date(f.createdAt).toLocaleString() })),
+    ...transactions.slice(0,2).map(t=>({ id:t._id, icon:"", text:`${t.name} donated ₹${t.amount?.toLocaleString("en-IN")}`, time: new Date(t.createdAt).toLocaleString() })),
+  ].sort((a,b)=>new Date(b.time)-new Date(a.time)).slice(0,8);
+
   const statusBadge = (s) => {
     const map = { pending:"status-pending", approved:"status-completed", rejected:"status-failed", Completed:"status-completed", Active:"status-completed" };
     return <span className={`status-badge ${map[s]||"status-pending"}`}>{s}</span>;
@@ -259,7 +262,7 @@ const AdminDashboard = () => {
           <Download size={16} className="me-2"/>Download Report
         </button>
       </div>
-      <div className="row admin-stats-row mb-4 g-3">
+      <div className="row mb-4 g-3">
         {[ 
           {icon:<DollarSign size={24}/>, title:"Remaining Donations", value:`₹${availableFund.toLocaleString("en-IN")}`, trend:`Received ₹${totalDonations.toLocaleString("en-IN")} − Approved ₹${approvedFunding.toLocaleString("en-IN")}`, cls:"bg-primary-light text-primary"},
           {icon:<HandCoins size={24}/>, title:"Total Received", value:`₹${totalDonations.toLocaleString("en-IN")}`, trend:`${completedDonations.length} donations`, cls:"bg-info-light text-info"},
@@ -268,13 +271,13 @@ const AdminDashboard = () => {
           {icon:<MessageSquare size={24}/>, title:"Unread Messages", value:unreadMessages, trend:"Contact form", cls:"bg-info-light text-info"},
           {icon:<HandCoins size={24}/>, title:"Approved Funding", value:`₹${approvedFunding.toLocaleString("en-IN")}`, trend:`${pendingFunding} pending`, cls:"bg-success-light text-success"},
         ].map((c,i)=>(
-          <div className="col-xl-4 col-lg-4 col-md-6 col-12" key={i}>
+          <div className="col-lg-2 col-md-4 col-6" key={i}>
             <div className="metric-card">
               <div className={`metric-icon ${c.cls}`}>{c.icon}</div>
-              <div className="metric-card-body">
+              <div>
                 <p className="metric-title">{c.title}</p>
                 <h3 className="metric-value">{c.value}</h3>
-                <p className="metric-trend"><TrendingUp size={12}/> {c.trend}</p>
+                <p className="metric-trend text-success"><TrendingUp size={12}/> {c.trend}</p>
               </div>
             </div>
           </div>
@@ -748,30 +751,24 @@ const AdminDashboard = () => {
             <div style={{position:"relative"}}>
               <button className="icon-btn" onClick={()=>setShowNotif(!showNotif)}>
                 <Bell size={20}/>
-                {notifUnread>0 && <span className="badge">{notifUnread}</span>}
+                {notifications.length>0 && <span className="badge">{notifications.length}</span>}
               </button>
               {showNotif && (
-                <div className="admin-notif-dropdown">
+                <div style={{position:"absolute",top:"50px",right:"0",width:"360px",maxHeight:"450px",background:"white",borderRadius:"12px",boxShadow:"0 10px 40px rgba(0,0,0,0.15)",zIndex:1000,overflow:"hidden",border:"1px solid #e2e8f0"}}>
                   <div style={{padding:"16px 20px",borderBottom:"1px solid #e2e8f0",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                     <h6 style={{margin:0,fontWeight:700}}>Notifications</h6>
-                    <div style={{display:"flex",gap:"8px",alignItems:"center"}}>
-                      {notifUnread>0 && (
-                        <button type="button" onClick={markAllNotifRead} style={{background:"none",border:"none",cursor:"pointer",color:"#0EA5E9",fontSize:"0.75rem",fontWeight:600}}>Mark all read</button>
-                      )}
-                      <button type="button" onClick={()=>setShowNotif(false)} style={{background:"none",border:"none",cursor:"pointer",color:"#94a3b8"}}><X size={18}/></button>
-                    </div>
+                    <button onClick={()=>setShowNotif(false)} style={{background:"none",border:"none",cursor:"pointer",color:"#94a3b8"}}><X size={18}/></button>
                   </div>
-                  <div className="admin-notif-list">
-                    {notifItems.length===0
+                  <div style={{maxHeight:"360px",overflowY:"auto"}}>
+                    {notifications.length===0
                       ? <div style={{padding:"30px 20px",textAlign:"center",color:"#94a3b8"}}>No notifications</div>
-                      : notifItems.map((n)=>(
-                          <div key={n.id} role="button" tabIndex={0}
-                            style={{padding:"14px 20px",borderBottom:"1px solid #f1f5f9",display:"flex",gap:"12px",alignItems:"flex-start",cursor:"pointer",background:n.read?"white":"#f0f9ff"}}
-                            onClick={()=>{ markNotifRead(n.id); if(n.link?.includes("funding")) setActiveTab("funding"); else if(n.link?.includes("donation")) setActiveTab("transactions"); else if(n.link?.includes("contact")) setActiveTab("messages"); setShowNotif(false); }}>
-                            <span style={{fontSize:"1.3rem",flexShrink:0}}>{n.icon}</span>
-                            <div style={{flex:1,minWidth:0}}>
-                              <p style={{margin:"0 0 2px",fontSize:"0.82rem",fontWeight:700,color:"#1e293b"}}>{n.title}</p>
-                              <p style={{margin:0,fontSize:"0.85rem",color:"#475569",wordBreak:"break-word"}}>{n.text}</p>
+                      : notifications.map((n,i)=>(
+                          <div key={n.id||i} style={{padding:"14px 20px",borderBottom:"1px solid #f1f5f9",display:"flex",gap:"12px",alignItems:"flex-start",cursor:"pointer"}}
+                            onMouseEnter={e=>e.currentTarget.style.background="#f8fafc"}
+                            onMouseLeave={e=>e.currentTarget.style.background="white"}>
+                            <span style={{fontSize:"1.3rem"}}>{n.icon}</span>
+                            <div style={{flex:1}}>
+                              <p style={{margin:0,fontSize:"0.88rem",fontWeight:500,color:"#1e293b"}}>{n.text}</p>
                               <small style={{color:"#94a3b8",fontSize:"0.75rem"}}>{n.time}</small>
                             </div>
                           </div>

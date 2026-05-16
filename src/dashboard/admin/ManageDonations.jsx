@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Download, Search, Filter } from "lucide-react";
 import PageHeader from "../../Components/PageHeader";
 
-const API = import.meta.env.VITE_API_URL 
-
+import API from "../../config/api";
 
 const ManageDonations = () => {
   const [donations, setDonations] = useState([]);
