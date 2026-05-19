@@ -1156,6 +1156,59 @@
     --bs-navbar-toggler-focus-width: 0;
   }
 
+  .site-navbar .navbar-inner {
+    max-width: min(1400px, 100%);
+    margin-inline: auto;
+  }
+
+  @media (min-width: 1200px) {
+    .site-navbar .navbar-collapse {
+      display: flex !important;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+
+    .site-navbar .navbar-nav-links,
+    .site-navbar .navbar-nav-actions {
+      flex-direction: row;
+      gap: 0.2rem;
+    }
+
+    .site-navbar .navbar-nav-actions {
+      margin-left: 0.35rem;
+    }
+  }
+
+  .site-navbar .navbar-nav .nav-link {
+    padding: 0.45rem 0.55rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .site-navbar .navbar-cta {
+    padding: 0.45rem 0.85rem !important;
+    font-size: 0.875rem !important;
+    white-space: nowrap;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site-navbar .navbar-logout {
+    color: #ef4444 !important;
+    border-color: #fecaca !important;
+  }
+
+  @media (max-width: 1399.98px) and (min-width: 1200px) {
+    .site-navbar .navbar-brand-sub {
+      display: none !important;
+    }
+  }
+
   .navbar .navbar-collapse {
     min-width: 0;
   }
@@ -1190,12 +1243,8 @@
     }
   }
 
-  @media (max-width: 991.98px) {
-    .section-padding {
-      padding: 3.5rem 0;
-    }
-
-    .navbar .navbar-collapse {
+  @media (max-width: 1199.98px) {
+    .site-navbar .navbar-collapse {
       background: rgba(255, 255, 255, 0.96);
       border: 1px solid rgba(226, 232, 240, 0.9);
       border-radius: 16px;
@@ -1204,22 +1253,29 @@
       padding: 1rem;
     }
 
-    .navbar .navbar-nav {
+    .site-navbar .navbar-nav {
       align-items: stretch !important;
       gap: 0.35rem !important;
     }
 
-    .navbar .nav-link,
-    .navbar .btn-premium {
+    .site-navbar .nav-link,
+    .site-navbar .btn-premium,
+    .site-navbar .navbar-cta {
       width: 100%;
       justify-content: center;
     }
 
-    .navbar .dropdown-menu {
+    .site-navbar .dropdown-menu {
       position: static;
       width: 100%;
       margin-top: 0.35rem !important;
       box-shadow: none !important;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .section-padding {
+      padding: 3.5rem 0;
     }
 
     .display-3 {
