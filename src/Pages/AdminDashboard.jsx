@@ -6,7 +6,7 @@ import {
   Newspaper, HandCoins, Eye, XCircle, Menu
 } from "lucide-react";
 
-const API = "http://localhost:5000/api";
+import { API_BASE_URL as API } from "../config/api";
 
 const parseJsonArray = async (res) => {
   try {

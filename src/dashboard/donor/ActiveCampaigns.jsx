@@ -3,7 +3,7 @@ import { Target, Heart } from "lucide-react";
 import PageHeader from "../../Components/PageHeader";
 import { Link } from "react-router-dom";
 
-const API = "http://localhost:5000/api";
+import { API_BASE_URL as API } from "../../config/api";
 const COLORS = ["#0EA5E9","#7C3AED","#10B981","#F59E0B","#EF4444","#06B6D4"];
 
 const ActiveCampaigns = () => {

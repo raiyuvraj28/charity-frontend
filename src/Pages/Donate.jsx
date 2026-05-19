@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { API_BASE_URL } from "../config/api";
 
 const Donate = () => {
   const { user } = useAuth();
@@ -26,7 +27,7 @@ const Donate = () => {
     try {
       const token = localStorage.getItem("token");
       // 1. Create order on your backend
-      const orderRes = await fetch('http://localhost:5000/api/donations/order', {
+      const orderRes = await fetch(`${API_BASE_URL}/donations/order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ amount: formData.amount })
@@ -50,7 +51,7 @@ const Donate = () => {
         handler: async function (response) {
           // 3. Verify payment on your backend
           try {
-            const verifyRes = await fetch('http://localhost:5000/api/donations', {
+            const verifyRes = await fetch(`${API_BASE_URL}/donations`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
               body: JSON.stringify({

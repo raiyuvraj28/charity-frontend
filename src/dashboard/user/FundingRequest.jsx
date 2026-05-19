@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { HandCoins, Upload, CheckCircle, Clock, XCircle } from "lucide-react";
 import PageHeader from "../../Components/PageHeader";
 
-const API = "http://localhost:5000/api";
+import { API_BASE_URL as API } from "../../config/api";
 
 const FundingRequest = () => {
   const { user } = useAuth();
