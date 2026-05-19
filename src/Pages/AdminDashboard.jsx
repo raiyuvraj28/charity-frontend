@@ -262,7 +262,7 @@ const AdminDashboard = () => {
           <Download size={16} className="me-2"/>Download Report
         </button>
       </div>
-      <div className="row mb-4 g-3">
+      <div className="admin-metrics-grid mb-4">
         {[ 
           {icon:<DollarSign size={24}/>, title:"Remaining Donations", value:`₹${availableFund.toLocaleString("en-IN")}`, trend:`Received ₹${totalDonations.toLocaleString("en-IN")} − Approved ₹${approvedFunding.toLocaleString("en-IN")}`, cls:"bg-primary-light text-primary"},
           {icon:<HandCoins size={24}/>, title:"Total Received", value:`₹${totalDonations.toLocaleString("en-IN")}`, trend:`${completedDonations.length} donations`, cls:"bg-info-light text-info"},
@@ -271,14 +271,12 @@ const AdminDashboard = () => {
           {icon:<MessageSquare size={24}/>, title:"Unread Messages", value:unreadMessages, trend:"Contact form", cls:"bg-info-light text-info"},
           {icon:<HandCoins size={24}/>, title:"Approved Funding", value:`₹${approvedFunding.toLocaleString("en-IN")}`, trend:`${pendingFunding} pending`, cls:"bg-success-light text-success"},
         ].map((c,i)=>(
-          <div className="col-lg-2 col-md-4 col-6" key={i}>
-            <div className="metric-card">
-              <div className={`metric-icon ${c.cls}`}>{c.icon}</div>
-              <div>
-                <p className="metric-title">{c.title}</p>
-                <h3 className="metric-value">{c.value}</h3>
-                <p className="metric-trend text-success"><TrendingUp size={12}/> {c.trend}</p>
-              </div>
+          <div className="metric-card" key={i}>
+            <div className={`metric-icon ${c.cls}`}>{c.icon}</div>
+            <div className="metric-body">
+              <p className="metric-title">{c.title}</p>
+              <h3 className="metric-value">{c.value}</h3>
+              <p className="metric-trend text-success"><TrendingUp size={12}/> {c.trend}</p>
             </div>
           </div>
         ))}
